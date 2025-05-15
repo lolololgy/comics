@@ -1,30 +1,36 @@
-<h1>Comic bewerken</h1>
+@extends('layouts.app')
 
-<form action="{{ route('comics.update', $comic) }}" method="POST">
-    @csrf
-    @method('PUT')
+@section('title', 'Comic Bewerken')
 
-    <label>Titel</label>
-    <input type="text" name="title" value="{{ old('title', $comic->title) }}" required>
+@section('content')
+    <h1>Comic Bewerken</h1>
 
-    <label>Auteur/Tekenaar</label>
-    <input type="text" name="author" value="{{ old('author', $comic->author) }}" required>
+    <form action="{{ route('comics.update', $comic) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <label>Serie</label>
-    <input type="text" name="series" value="{{ old('series', $comic->series) }}">
+        <label>Titel</label>
+        <input type="text" name="title" value="{{ old('title', $comic->title) }}" required>
 
-    <label>Nummer</label>
-    <input type="number" name="number" value="{{ old('number', $comic->number) }}">
+        <label>Auteur/Tekenaar</label>
+        <input type="text" name="author" value="{{ old('author', $comic->author) }}" required>
 
-    <label>Genre</label>
-    <input type="text" name="genre" value="{{ old('genre', $comic->genre) }}">
+        <label>Serie</label>
+        <input type="text" name="series" value="{{ old('series', $comic->series) }}">
 
-    <label>Status</label>
-    <select name="status" required>
-        <option value="gelezen" {{ $comic->status == 'gelezen' ? 'selected' : '' }}>Gelezen</option>
-        <option value="wishlist" {{ $comic->status == 'wishlist' ? 'selected' : '' }}>Wishlist</option>
-        <option value="in_bezit" {{ $comic->status == 'in_bezit' ? 'selected' : '' }}>In bezit</option>
-    </select>
+        <label>Nummer</label>
+        <input type="number" name="number" value="{{ old('number', $comic->number) }}">
 
-    <button type="submit">Opslaan</button>
-</form>
+        <label>Genre</label>
+        <input type="text" name="genre" value="{{ old('genre', $comic->genre) }}">
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="gelezen" {{ $comic->status == 'gelezen' ? 'selected' : '' }}>Gelezen</option>
+            <option value="wishlist" {{ $comic->status == 'wishlist' ? 'selected' : '' }}>Wishlist</option>
+            <option value="in_bezit" {{ $comic->status == 'in_bezit' ? 'selected' : '' }}>In bezit</option>
+        </select>
+
+        <button type="submit">💾 Opslaan</button>
+    </form>
+@endsection
