@@ -5,7 +5,7 @@
 
     <div class="py-6 px-4">
         <form method="GET" class="mb-4">
-            <input type="text" name="q" placeholder="Zoek Marvel comics..." class="border px-2 py-1">
+            <input type="text" name="q" placeholder="Zoek Marvel comics..." value="{{ $query ?? '' }}" class="border px-2 py-1">
             <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">Zoek</button>
         </form>
 
@@ -42,15 +42,45 @@
                 </div>
             @endforeach
         </div>
+
+        {{-- Pagination controls --}}
+        <div class="mt-6 text-center flex justify-center gap-4">
+            {{-- Terugknop --}}
+            @if($offset > 0)
+                <form method="GET" action="{{ route('marvel.index') }}">
+                    <input type="hidden" name="offset" value="{{ max($offset - 20, 0) }}">
+                    @if(!empty($query))
+                        <input type="hidden" name="q" value="{{ $query }}">
+                    @endif
+                    <button type="submit" class="bg-gray-400 text-black px-4 py-2 rounded hover:bg-gray-500 transition">
+                        ← Terug
+                    </button>
+                </form>
+            @endif
+
+            {{-- Volgende knop --}}
+            @if($nextOffset < $total)
+                <form method="GET" action="{{ route('marvel.index') }}">
+                    <input type="hidden" name="offset" value="{{ $nextOffset }}">
+                    @if(!empty($query))
+                        <input type="hidden" name="q" value="{{ $query }}">
+                    @endif
+                    <button type="submit" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition">
+                        Volgende 20 comics →
+                    </button>
+                </form>
+            @endif
+        </div>
     </div>
 </x-app-layout>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const forms = document.querySelectorAll('.favorite-form');
 
         forms.forEach(form => {
             form.addEventListener('submit', async (e) => {
-                e.preventDefault(); // Prevent the default form submission
+                e.preventDefault();
 
                 const formData = new FormData(form);
                 const action = form.getAttribute('action');
@@ -66,7 +96,6 @@
 
                     if (response.ok) {
                         const result = await response.json();
-                        // Update the UI dynamically (e.g., mark as "In collectie")
                         form.innerHTML = '<p class="bg-green-500 py-1 px-2 rounded font-bold text-center">In collectie</p>';
                     } else {
                         console.error('Failed to add to favorites');
@@ -78,5 +107,3 @@
         });
     });
 </script>
-
-

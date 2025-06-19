@@ -15,18 +15,25 @@ class MarvelService
         $this->privateKey = config('services.marvel.private');
     }
 
-    public function getComics($query = '')
+    public function
+    getComics($query = '', $offset = 0)
     {
         $ts = time();
         $hash = md5($ts . $this->privateKey . $this->publicKey);
 
-        $response = Http::withoutVerifying()->get('https://gateway.marvel.com/v1/public/comics', [
+        $params = [
             'apikey' => $this->publicKey,
             'ts' => $ts,
             'hash' => $hash,
-            'titleStartsWith' => $query,
             'limit' => 20,
-        ]);
+            'offset' => $offset,
+        ];
+
+        if (!empty($query)) {
+            $params['titleStartsWith'] = $query;
+        }
+
+        $response = Http::withoutVerifying()->get('https://gateway.marvel.com/v1/public/comics', $params);
 
         return $response->json();
     }

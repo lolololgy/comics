@@ -19,15 +19,24 @@ class MarvelComicController extends Controller
 
     public function index(Request $request)
     {
-        $response = $this->marvel->getComics($request->query('q', 'avengers'));
+        $query = $request->query('', '');
+        $offset = $request->query('offset', 0);
 
-        // Pak alleen de resultatenlijst
+        $response = $this->marvel->getComics($query, $offset);
+
         $comics = $response['data']['results'] ?? [];
+        $total = $response['data']['total'] ?? 0;
+//        dump($total);
+        $count = $response['data']['count'] ?? 0;
+//        dump($count);
+
+        $nextOffset = $offset + $count;
 
         $userComics = auth()->user()->comics->pluck('title')->toArray();
 
-        return view('marvel.index', compact('comics', 'userComics'));
+        return view('marvel.index', compact('comics', 'userComics', 'query', 'offset', 'nextOffset', 'total'));
     }
+
 
     public function store(Request $request)
     {
