@@ -1,56 +1,38 @@
 <!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <title>@yield('title', 'Comic Collectie')</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #fef3c7;
-            font-family: 'Bangers', cursive;
-            padding: 20px;
-        }
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        h1, h2 {
-            color: #d00000;
-            text-shadow: 2px 2px #ffea00;
-        }
+        <title>@yield('title', config('app.name', 'Laravel'))</title>
 
-        a {
-            color: #0057b7;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        .comic-card {
-            background: white;
-            border: 4px solid #000;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 5px 5px #222;
-        }
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/comic.css'])
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/comic.css') }}" rel="stylesheet">
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
 
-        form, input, select, button, label {
-            display: block;
-            margin: 10px 0;
-            font-family: sans-serif;
-        }
+            <!-- Page Heading -->
+            @isset($header)
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
 
-        button {
-            background-color: #ffdd00;
-            border: 2px solid #000;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-@yield('content')
-</body>
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+        </div>
+    </body>
 </html>

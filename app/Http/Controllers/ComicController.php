@@ -9,7 +9,7 @@ class ComicController extends Controller
 {
     public function index()
     {
-        $comics = Comic::all();
+        $comics = auth()->user()->comics;
         return view('comics.index', compact('comics'));
     }
 
@@ -27,9 +27,15 @@ class ComicController extends Controller
             'number' => 'nullable|integer',
             'genre' => 'nullable|string|max:255',
             'status' => 'required|in:gelezen,wishlist,in_bezit',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        Comic::create($validated);
+        if ($request->hasFile('cover')) {
+            $path = $request->file('cover')->store('covers', 'public');
+            $validated['cover_path'] = $path;
+        }
+
+        auth()->user()->comics()->create($validated);
 
         return redirect()->route('comics.index')->with('success', 'Comic toegevoegd!');
     }
@@ -53,9 +59,16 @@ class ComicController extends Controller
             'number' => 'nullable|integer',
             'genre' => 'nullable|string|max:255',
             'status' => 'required|in:gelezen,wishlist,in_bezit',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $comic = Comic::findOrFail($id);
+
+        if ($request->hasFile('cover')) {
+            $path = $request->file('cover')->store('covers', 'public');
+            $validated['cover_path'] = $path;
+        }
+
         $comic->update($validated);
 
         return redirect()->route('comics.index')->with('success', 'Comic bijgewerkt.');

@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'marvel' => [
+        'public' => env('MARVEL_PUBLIC_KEY'),
+        'private' => env('MARVEL_PRIVATE_KEY'),
+    ],
+
+
 ];

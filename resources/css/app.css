@@ -1,11 +1,38 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+     /* Custom card style */
+ .comic-card {
+     @apply bg-white p-6 rounded-lg shadow-md mb-6 border border-gray-200;
+ }
+/* Hover effect for links */
+a:hover {
+    @apply text-indigo-600 underline;
+}
+/* Form labels */
+label {
+    @apply block font-semibold mb-1 text-gray-700;
+}
+/* Form inputs */
+input[type="text"],
+input[type="number"],
+select {
+    @apply w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+/* Buttons */
+button {
+    @apply bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-indigo-700 transition;
+}
+/* Success message */
+.success {
+    @apply bg-green-100 text-green-800 px-4 py-2 rounded mb-4;
+}
+/* User list items */
+ul li {
+    @apply mb-3 text-lg;
+}
+/* Navigation and back links */
+.back-link {
+    @apply inline-block mt-6 text-indigo-600 hover:underline;
 }

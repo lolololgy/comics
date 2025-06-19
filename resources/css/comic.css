@@ -1,0 +1,25 @@
+.comic-card {
+    background: #fff;
+    border: 3px solid black;
+    border-radius: 0.5rem;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    transition: transform 0.2s;
+}
+.comic-card:hover {
+    transform: scale(1.03);
+}
+.comic-button {
+    background-color: #facc15;
+    color: black;
+    border: 2px solid black;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.comic-button:hover {
+    background-color: #fde047;
+}
